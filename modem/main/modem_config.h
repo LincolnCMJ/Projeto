@@ -7,10 +7,16 @@
 void modem_activate() {
     const char *messages[] = {
         "AT\r\n",
-        "AT+CFUN=1\r\n",
-        "AT+CSQ\r\n",
-        "AT+CSTT=\"zap.vivo.com.br\",\"vivo\",\"vivo\"\r\n",
-        
+        "AT+CGATT=1\r\n",
+        "AT+CIPMUX=0\r\n",
+        "AT+CSTT=\"claro.com.br\",\"claro\",\"claro\"\r\n",
+        "AT+CIICR\r\n",
+        "AT+CIFSR\r\n",
+        "AT+CIPSTART=\"TCP\",\"api.thingspeak.com\",\"80\"\r\n",
+        "AT+CIPSEND=48\r\n",
+        "GET /update?api_key=USVTT9FAQOPBMP5G&field1=0\r\n\x1A",
+        "AT+CIPCLOSE\r\n",
+        "AT+CIPSHUT\r\n",
     };
     
     int num_messages = sizeof(messages) / sizeof(messages[0]);
@@ -24,6 +30,6 @@ void modem_activate() {
             break;
         }
         receive();
-        //vTaskDelay(pdMS_TO_TICKS(1000));
+        vTaskDelay(pdMS_TO_TICKS(1000));
     }
 }

@@ -8,7 +8,12 @@
 
 
 void app_main(void) {
+    printf("Waiting for initialization.....\r\n");
+    vTaskDelay(pdMS_TO_TICKS(5000));
+    printf("Ready to run.\r\n");
+    
     init_uart();
     modem_activate();
-    send();
+    //vTaskDelay(pdMS_TO_TICKS(5000));
+    //send();
 }
