@@ -15,7 +15,7 @@ void modem_activate() {
         "AT+CIFSR\r\n",
         "AT+CIPSTART=\"TCP\",\"api.thingspeak.com\",\"80\"\r\n",
         "AT+CIPSEND=48\r\n",
-        "GET /update?api_key=USVTT9FAQOPBMP5G&field1=50\r\n\x1A",
+        "GET /update?api_key=USVTT9FAQOPBMP5G&field1=0\r\n\x1A",
         "AT+CIPCLOSE\r\n",
         "AT+CIPSHUT\r\n",
     };

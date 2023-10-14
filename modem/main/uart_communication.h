@@ -41,7 +41,7 @@ void receive() {
     uint8_t data_received[1024];
     int length = 0;
     ESP_ERROR_CHECK(uart_get_buffered_data_len(UART, (size_t*)&length));
-    length = uart_read_bytes(UART, data_received, length, pdMS_TO_TICKS(1000));
+    length = uart_read_bytes(UART, data_received, length, pdMS_TO_TICKS(500));
     if (length > 0) {
         data_received[length] = 0; // Add a string terminator
         ESP_LOGI(TAG0, "Receive: %s", data_received);
