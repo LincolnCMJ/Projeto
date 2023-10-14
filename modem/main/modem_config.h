@@ -10,17 +10,18 @@ void modem_activate() {
         "AT+CGATT=1\r\n",
         "AT+CIPMUX=0\r\n",
         "AT+CSTT=\"claro.com.br\",\"claro\",\"claro\"\r\n",
+        "AT+CSQ\r\n",
         "AT+CIICR\r\n",
         "AT+CIFSR\r\n",
         "AT+CIPSTART=\"TCP\",\"api.thingspeak.com\",\"80\"\r\n",
         "AT+CIPSEND=48\r\n",
-        "GET /update?api_key=USVTT9FAQOPBMP5G&field1=0\r\n\x1A",
+        "GET /update?api_key=USVTT9FAQOPBMP5G&field1=50\r\n\x1A",
         "AT+CIPCLOSE\r\n",
         "AT+CIPSHUT\r\n",
     };
     
-    int num_messages = sizeof(messages) / sizeof(messages[0]);
     int current_message_index = 0;
+    int num_messages = sizeof(messages) / sizeof(messages[0]);
 
     while (1) {
         if (current_message_index < num_messages) {

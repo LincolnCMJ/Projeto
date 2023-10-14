@@ -28,3 +28,6 @@ const char *messages[] = {
     };
 
 "AT+CIPSTART=\"TCP\",\"mqtt://mqtt.eclipseprojects.io\",\"1883\"\r\n",
+
+Link para a public view do thingspeak:
+https://thingspeak.com/channels/2302646
