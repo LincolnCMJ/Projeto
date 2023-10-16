@@ -2,10 +2,10 @@
 #include "freertos/task.h"
 #include "esp_system.h"
 
-#include "uart_communication.h"
+#include "modem_uart_com.h"
 
 void modem_activate() {
-    const char *messages[] = {
+    const char *init_commnands[] = {
         "AT\r\n",
         "AT+CGATT=1\r\n",
         "AT+CIPMUX=0\r\n",
@@ -15,19 +15,20 @@ void modem_activate() {
         "AT+CIFSR\r\n",
         "AT+CIPSTART=\"TCP\",\"api.thingspeak.com\",\"80\"\r\n",
         "AT+CIPSEND=48\r\n",
-        "GET /update?api_key=USVTT9FAQOPBMP5G&field1=0\r\n\x1A",
-        "AT+CIPCLOSE\r\n",
-        "AT+CIPSHUT\r\n",
+        "GET /update?api_key=USVTT9FAQOPBMP5G&field1=30\r\n\x1A",
+        //"AT+CIPCLOSE\r\n",
+        //"AT+CIPSHUT\r\n",
     };
-    
-    int current_message_index = 0;
-    int num_messages = sizeof(messages) / sizeof(messages[0]);
+     
+    int current_command_index = 0;
+    int num_commands = sizeof(init_commnands) / sizeof(init_commnands[0]);
 
     while (1) {
-        if (current_message_index < num_messages) {
-            send_at_command(messages[current_message_index]);
-            current_message_index++;
-        } else {
+        if (current_command_index < num_commands) {
+            send_at_command(init_commnands[current_command_index]);
+            current_command_index++;
+        }
+        else {
             break;
         }
         receive();

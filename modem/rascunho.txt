@@ -27,6 +27,21 @@ const char *messages[] = {
         "AT+CIPSHUT\r\n",
     };
 
+    const char *messages[] = {
+        "AT\r\n",
+        "AT+CGATT=1\r\n",
+        "AT+CIPMUX=0\r\n",
+        "AT+CSTT=\"claro.com.br\",\"claro\",\"claro\"\r\n",
+        "AT+CSQ\r\n",
+        "AT+CIICR\r\n",
+        "AT+CIFSR\r\n",
+        "AT+CIPSTART=\"TCP\",\"api.thingspeak.com\",\"80\"\r\n",
+        "AT+CIPSEND=48\r\n",
+        "GET /update?api_key=USVTT9FAQOPBMP5G&field1=0\r\n\x1A",
+        "AT+CIPCLOSE\r\n",
+        "AT+CIPSHUT\r\n",
+    };
+
 "AT+CIPSTART=\"TCP\",\"mqtt://mqtt.eclipseprojects.io\",\"1883\"\r\n",
 
 Link para a public view do thingspeak:

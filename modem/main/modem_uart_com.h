@@ -38,7 +38,7 @@ void send_at_command(const char *data_to_send) {
 }
 
 void receive() {
-    uint8_t data_received[1024];
+    char data_received[1024];
     int length = 0;
     ESP_ERROR_CHECK(uart_get_buffered_data_len(UART, (size_t*)&length));
     length = uart_read_bytes(UART, data_received, length, pdMS_TO_TICKS(500));
