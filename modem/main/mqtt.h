@@ -48,8 +48,17 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
 static void mqtt_app_start(void) {
     const esp_mqtt_client_config_t mqtt_cfg = {
         .broker = {
-            .address.uri = "tcp://mqtt.eclipseprojects.io",
+            .address.uri = "mqtt://mqtt.eclipseprojects.io",
+            //.address.uri = "mqtt://broker.emqx.io",
         }
+        // .credentials = {
+        //     .username = 0,
+        //     .client_id =0,
+        //     .authentication = {
+        //         .password = 0,
+        //         //.certificate =0,
+        //     }
+        // },
     };
 
     esp_mqtt_client_handle_t client = esp_mqtt_client_init(&mqtt_cfg);
@@ -58,6 +67,6 @@ static void mqtt_app_start(void) {
 }
 
 void send() {
-    vTaskDelay(2000 / portTICK_PERIOD_MS);
+    vTaskDelay(pdMS_TO_TICKS(2000));
     mqtt_app_start();
 }

@@ -1,0 +1,63 @@
+Envio de SMS via comandos AT:
+const char *messages[] = {
+    "AT\r\n",
+    "AT+CMGF=1\r\n",
+    "AT+CMGD=?\r\n",
+    "AT+CSCA=\"+552194995300\"\r\n",
+    "AT+CMGS=\"+5527995080724\"\r\n",
+    "Envia mensagem de teste!\r\n",
+    "\x1A"
+};
+
+Comunicacao com o site thingspeak:
+const char *messages[] = {
+        "AT\r\n",
+        "AT+CGATT=1\r\n",
+        "AT+CIPSHUT\r\n",
+        "AT+CIPMUX=0\r\n",
+        "AT+CSTT=\"claro.com.br\",\"claro\",\"claro\"\r\n",
+        "AT+CIICR\r\n",
+        "AT+CIFSR\r\n",
+        "AT+CIPMUX=0\r\n",
+        "AT+CIPMODE=0\r\n",
+        "AT+CIPSTART=\"TCP\",\"api.thingspeak.com\",\"80\"\r\n",
+        "AT+CIPSEND=48\r\n",
+        "GET /update?api_key=USVTT9FAQOPBMP5G&field1=13\r\n\x1A",
+        "AT+CIPCLOSE\r\n",
+        "AT+CIPSHUT\r\n",
+    };
+
+    const char *messages[] = {
+        "AT\r\n",
+        "AT+CGATT=1\r\n",
+        "AT+CIPMUX=0\r\n",
+        "AT+CSTT=\"claro.com.br\",\"claro\",\"claro\"\r\n",
+        "AT+CSQ\r\n",
+        "AT+CIICR\r\n",
+        "AT+CIFSR\r\n",
+        "AT+CIPSTART=\"TCP\",\"api.thingspeak.com\",\"80\"\r\n",
+        "AT+CIPSEND=48\r\n",
+        "GET /update?api_key=USVTT9FAQOPBMP5G&field1=0\r\n\x1A",
+        "AT+CIPCLOSE\r\n",
+        "AT+CIPSHUT\r\n",
+    };
+
+"AT+CIPSTART=\"TCP\",\"mqtt://mqtt.eclipseprojects.io\",\"1883\"\r\n",
+
+Link para a public view do thingspeak:
+https://thingspeak.com/channels/2302646
+
+void modem_connect() {
+    send_at_command("AT\r\n", 1000);
+    send_at_command("AT+CIPSHUT\r\n", 1000);
+    send_at_command("AT+CGATT=1\r\n", 1000); // Atach to the GPRS network.
+    send_at_command("AT+CIPMUX=0\r\n", 1000); // Single IP connection.
+    send_at_command("AT+CSTT=\"claro.com.br\",\"claro\",\"claro\"\r\n", 1000); // Start task and set APN, user name, password.
+    send_at_command("AT+CSQ\r\n", 1000);
+    send_at_command("AT+CIICR\r\n", 3000); // Bring up wireless connection with GPRS or CSD.
+    send_at_command("AT+CIFSR\r\n", 4000); // Get local IP address. 
+    send_at_command("AT+CIPSTART=\"TCP\",\"api.thingspeak.com\",\"80\"\r\n", 4000); //Start up TCP or UDP connection.
+    send_at_command("AT+CIPSTART=\"TCP\",\"mqtt.eclipseprojects.io\",\"1883\"\r\n", 4000);
+    send_at_command("AT+CIPSEND=48\r\n", 1000); // Send Data Through TCP or UDP Connection. <lenght>
+    send_at_command("GET /update?api_key=USVTT9FAQOPBMP5G&field1=50\r\n\x1A", 1000);
+}
