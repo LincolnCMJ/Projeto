@@ -38,7 +38,7 @@ void modem_connect()
             break;
         case 8:
             send_at_command("AT+CIPSTART=\"TCP\",\"mqtt.eclipseprojects.io\",\"1883\"\r\n", 4000);
-            response_check = at_response("AT+CIPSTART=\"TCP\",\"mqtt.eclipseprojects.io\",\"1883\"", response_check);
+            response_check = at_response("AT+CIPSTART=\"TCP\",\"mqtt://mqtt.eclipseprojects.io\",\"1883\"", response_check);
             network_connect = true;
             break;
         

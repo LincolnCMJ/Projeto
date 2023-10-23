@@ -13,5 +13,6 @@ void app_main()
     
     init_uart();
     modem_connect();
-    //send();
+    vTaskDelay(pdMS_TO_TICKS(5000));
+    send();
 }
