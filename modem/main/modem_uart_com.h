@@ -1,17 +1,3 @@
-#include <stdio.h>
-#include <stdbool.h>
-
-#include "freertos/FreeRTOS.h"
-//#include "freertos/task.h"
-
-#include "esp_log.h"
-
-#include "string.h"
-
-#include "driver/uart.h"
-
-#include "driver/gpio.h"
-
 static const char *TAG0 = "UART";
 
 static const int uart_buffer_size = (1024 * 2);
@@ -49,9 +35,8 @@ void send_at_command(const char *data_to_send, int wait_time)
     vTaskDelay(pdMS_TO_TICKS(wait_time));
 }
 
-int at_response(const char *command_check, int next_command)
+int at_response(const char *command_check, int cont)
 {
-    int rst_cont = 3;
     char data_received[1024];
     int length = 0;
     ESP_ERROR_CHECK(uart_get_buffered_data_len(UART, (size_t*)&length));
@@ -63,22 +48,17 @@ int at_response(const char *command_check, int next_command)
         /*
          * Check routine
          */
-        if (strstr(command_check, "AT+CIFSR")) { // Check the IP connection and reset modem after n tries.
+        if (strstr(command_check, "AT+CIFSR")) { // Check the IP connection.
             if ((length < 11) || length > 19) {
                 uart_flush(UART);
-                printf("Command failed.\r\n");
-                rst_cont--;
-                if (rst_cont == 0) {
-                    send_at_command("AT+CPOWD=1\r\n", 1000);
-                    printf("Reset modem.\r\n");
-                    next_command = 1;
-                    vTaskDelay(pdMS_TO_TICKS(5000));
-                }
-                return next_command;
+                cont--;
+                return cont;
             }
+            cont = -1;
+            return cont;
         }
     }
     uart_flush(UART);
-    next_command++;
-    return next_command;
+    cont = -1;
+    return cont;
 }

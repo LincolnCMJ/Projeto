@@ -52,22 +52,24 @@ static esp_err_t mqtt_event_handler_cb(esp_mqtt_event_handle_t event)
     return ESP_OK;
 }
 
-static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int event_id, void *event_data)
-{
-    ESP_LOGD(TAG, "Event dispatched from event loop base=%s, event_id=%d", base, event_id);
+static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_t event_id, void *event_data) {
+    ESP_LOGD(TAG1, "Event dispatched from event loop base=%s, event_id=%ld", base, (long int)event_id);
     mqtt_event_handler_cb(event_data);
 }
 
-static void mqtt_app_start(void)
-{
+static void mqtt_app_start(void) {
     const esp_mqtt_client_config_t mqtt_cfg = {
         .broker = {
-            .address.uri = "mqtt://mqtt.eclipseprojects.io:1883"
-            //.address.uri = "mqtt://mqtt.eclipseprojects.io",
-            //.broker.address.uri = "mqtt://mqtt.thingspeak.com",
-            //.broker.address.uri = "mqtt://MKII:1444@broker.emqx.io:1883",
-            //.verification.certificate = (const char *)mqtt_eclipse_org_pem_start,
+            .address.uri = "mqtt://mqtt.eclipseprojects.io",
         }
+        // .credentials = {
+        //     .username = 0,
+        //     .client_id =0,
+        //     .authentication = {
+        //         .password = 0,
+        //         //.certificate =0,
+        //     }
+        // },
     };
 
     esp_mqtt_client_handle_t client = esp_mqtt_client_init(&mqtt_cfg);

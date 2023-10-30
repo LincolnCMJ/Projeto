@@ -1,4 +1,4 @@
-Envio de SMS via comandos AT:
+Sending SMS via AT commands:
 const char *messages[] = {
     "AT\r\n",
     "AT+CMGF=1\r\n",
@@ -9,7 +9,7 @@ const char *messages[] = {
     "\x1A"
 };
 
-Comunicacao com o site thingspeak:
+Communication with the thingspeak website:
 const char *messages[] = {
         "AT\r\n",
         "AT+CGATT=1\r\n",
@@ -29,5 +29,5 @@ const char *messages[] = {
 
 "AT+CIPSTART=\"TCP\",\"mqtt://mqtt.eclipseprojects.io\",\"1883\"\r\n",
 
-Link para a public view do thingspeak:
+Link to thingspeak public view:
 https://thingspeak.com/channels/2302646

@@ -1,49 +1,105 @@
 #include "modem_uart_com.h"
 
-void modem_connect()
+// #define SIM800L_RESET_PIN GPIO_NUM_12
+
+void gsm_connection()
 {
-    int response_check = 1;
+    // gpio_reset_pin(SIM800L_RESET_PIN);
+    // gpio_set_direction(SIM800L_RESET_PIN, GPIO_MODE_OUTPUT);
+
+    // gpio_set_level(SIM800L_RESET_PIN, 1);
+
+    // vTaskDelay(pdMS_TO_TICKS(5000));
+    
+    int step = 1;
+    int response_check = 3;
     bool network_connect = false;
 
     while(!network_connect) {
-        switch (response_check)
+        switch (step)
         {
         case 1:
-            send_at_command("ATE0\r\n", 1000); /*Disable echo.*/
-            response_check = at_response("ATE0", response_check);
+            while(response_check > 0) {
+                send_at_command("ATE0\r\n", 1000); /*Disable echo.*/
+                response_check = at_response("ATE0", response_check);
+            }
+            response_check = 3;
+            step++;
             break;
         case 2:
-            send_at_command("AT+CIPSHUT\r\n", 3000); /*Deactivate GPRS PDP Context.*/
-            response_check = at_response("AT+CIPSHUT", response_check);
+            while(response_check > 0) {
+                send_at_command("AT+CIPSHUT\r\n", 3000); /*Deactivate GPRS PDP Context.*/
+                response_check = at_response("AT+CIPSHUT", response_check);
+            }
+            response_check = 3;
+            step++;
             break;
         case 3:
-            send_at_command("AT+CGATT=1\r\n", 2000); /*Atach to the GPRS network.*/
-            response_check = at_response("AT+CGATT=1", response_check);
+            while(response_check > 0) {
+                send_at_command("AT+CGATT=1\r\n", 2000); /*Atach to the GPRS network.*/
+                response_check = at_response("AT+CGATT=1", response_check);
+            }
+            response_check = 3;
+            step++;
             break;
         case 4:
-            send_at_command("AT+CIPMUX=0\r\n", 2000); /*Single IP connection.*/
-            response_check = at_response("AT+CIPMUX=0", response_check);
+            while(response_check > 0) {
+                send_at_command("AT+CIPMUX=0\r\n", 2000); /*Single IP connection.*/
+                response_check = at_response("AT+CIPMUX=0", response_check);
+            }
+            response_check = 3;
+            step++;
             break;
         case 5:
-            send_at_command("AT+CSTT=\"claro.com.br\",\"claro\",\"claro\"\r\n", 2000); /*Start task and set APN, user name, password.*/
-            response_check = at_response("AT+CSTT=\"claro.com.br\",\"claro\",\"claro\"", response_check);
+            while(response_check > 0) {
+                send_at_command("AT+CSTT=\"claro.com.br\",\"claro\",\"claro\"\r\n", 2000); /*Start task and set APN, user name, password.*/
+                response_check = at_response("AT+CSTT=\"claro.com.br\",\"claro\",\"claro\"", response_check);
+            }
+            response_check = 3;
+            step++;
             break;
         case 6:
-            send_at_command("AT+CIICR\r\n", 3000); /*Bring up wireless connection with GPRS or CSD.*/
-            response_check = at_response("AT+CIICR", response_check);
+            while(response_check > 0) {
+                send_at_command("AT+CIICR\r\n", 3000); /*Bring up wireless connection with GPRS or CSD.*/
+                response_check = at_response("AT+CIICR", response_check);
+            }
+            response_check = 3;
+            step++;
             break;
         case 7:
-            send_at_command("AT+CIFSR\r\n", 4000); /*Get local IP address.*/
-            response_check = at_response("AT+CIFSR", response_check);
-            break;
+            while(response_check > 0) {
+                send_at_command("AT+CIFSR\r\n", 4000); /*Get local IP address.*/
+                printf("Repeat: %d\r\n", response_check);
+                response_check = at_response("AT+CIFSR", response_check);
+            }
+            if (response_check == 0) {
+                printf("Command failed.\r\n");
+                /*Set new reset method.*/
+                // gpio_set_level(SIM800L_RESET_PIN, 0);
+                // vTaskDelay(pdMS_TO_TICKS(100));
+                // gpio_set_level(SIM800L_RESET_PIN, 1);
+                // vTaskDelay(pdMS_TO_TICKS(5000));
+                response_check = 3;
+                step = 1;
+                break;
+            }
+            else {
+                response_check = 3;
+                step++;
+                break;
+            }
         case 8:
-            send_at_command("AT+CIPSTART=\"TCP\",\"mqtt.eclipseprojects.io\",\"1883\"\r\n", 4000);
-            response_check = at_response("AT+CIPSTART=\"TCP\",\"mqtt://mqtt.eclipseprojects.io\",\"1883\"", response_check);
+            while(response_check > 0) {
+                send_at_command("AT+CIPSTART=\"TCP\",\"etransito.vitoria.ifes.edu.br\",\"1883\"\r\n", 4000);
+                response_check = at_response("AT+CIPSTART=\"TCP\",\"etransito.vitoria.ifes.edu.br\",\"1883\"", response_check);
+            }
+            response_check = 3;
+            step++;
+            break;
+        case 9:
             network_connect = true;
             break;
         
         }
     }
 }
-
-// send_at_command("AT+CSQ\r\n", 1000);

@@ -1,16 +1,20 @@
-#include "freertos/FreeRTOS.h"
-#include "freertos/task.h"
-#include "esp_log.h"
 #include "mqtt_client.h"
 
 static const char *TAG1 = "MQTT_Publisher";
+
+#define MQTT_BROKER_URI "mqtt://etransito.vitoria.ifes.edu.br:1883"
+#define MQTT_CLIENT_ID NULL
+#define MQTT_USERNAME "c43b745e-0ee3-4ca3-a41b-413068a7fe32"
+#define MQTT_PASSWORD "9c02894934fd40d999678f4576b6e7e6"
+#define MQTT_TOPIC "TO DEFINE"
+#define MQTT_PAYLOAD "TO DEFINE"
 
 static esp_err_t mqtt_event_handler_cb(esp_mqtt_event_handle_t event) {
     esp_mqtt_client_handle_t client = event->client;
     switch (event->event_id) {
         case MQTT_EVENT_CONNECTED:
             ESP_LOGI(TAG1, "MQTT_EVENT_CONNECTED");
-            esp_mqtt_client_publish(client, "teste_localizacao", "Teste de envio de mensagem via MQTT.", 0, 1, 0);
+            esp_mqtt_client_publish(client, MQTT_TOPIC, MQTT_PAYLOAD, 0, 1, 0);
             //esp_mqtt_client_subscribe(client, "topic", 0);
             break;
         case MQTT_EVENT_DISCONNECTED:
@@ -48,17 +52,16 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
 static void mqtt_app_start(void) {
     const esp_mqtt_client_config_t mqtt_cfg = {
         .broker = {
-            .address.uri = "mqtt://mqtt.eclipseprojects.io",
-            //.address.uri = "mqtt://broker.emqx.io",
-        }
-        // .credentials = {
-        //     .username = 0,
-        //     .client_id =0,
-        //     .authentication = {
-        //         .password = 0,
-        //         //.certificate =0,
-        //     }
-        // },
+            .address.uri = MQTT_BROKER_URI,
+        },
+        .credentials = {
+            .username = MQTT_USERNAME,
+            .client_id = MQTT_CLIENT_ID,
+            .authentication = {
+                .password = MQTT_PASSWORD,
+                //.certificate =0,
+            }
+        },
     };
 
     esp_mqtt_client_handle_t client = esp_mqtt_client_init(&mqtt_cfg);
