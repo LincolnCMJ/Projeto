@@ -1,4 +1,4 @@
-#include "mqtt_client.h"
+#include "data.h"
 
 static const char *TAG1 = "MQTT_Publisher";
 
@@ -8,14 +8,15 @@ static const char *TAG1 = "MQTT_Publisher";
 // #define MQTT_USERNAME "c43b745e-0ee3-4ca3-a41b-413068a7fe32"
 // #define MQTT_PASSWORD "9c02894934fd40d999678f4576b6e7e6"
 #define MQTT_TOPIC "GPS"
-#define MQTT_PAYLOAD "Teste."
+// #define MQTT_PAYLOAD "data_to_send"
 
 static esp_err_t mqtt_event_handler_cb(esp_mqtt_event_handle_t event) {
     esp_mqtt_client_handle_t client = event->client;
     switch (event->event_id) {
         case MQTT_EVENT_CONNECTED:
             ESP_LOGI(TAG1, "MQTT_EVENT_CONNECTED");
-            esp_mqtt_client_publish(client, MQTT_TOPIC, MQTT_PAYLOAD, 0, 1, 0);
+            char *data_to_send = generate_json();
+            esp_mqtt_client_publish(client, MQTT_TOPIC, data_to_send, 0, 1, 0);
             //esp_mqtt_client_subscribe(client, "topic", 0);
             break;
         case MQTT_EVENT_DISCONNECTED:
@@ -60,7 +61,7 @@ static void mqtt_app_start(void) {
         //     .client_id = MQTT_CLIENT_ID,
         //     .authentication = {
         //         .password = MQTT_PASSWORD,
-        //         //.certificate =0,
+        //         //.certificate = NULL,
         //     }
         // },
     };

@@ -10,3 +10,7 @@
 #include "esp_log.h"
 
 #include "string.h"
+
+#include "mqtt_client.h"
+
+#include "cJSON.h"
