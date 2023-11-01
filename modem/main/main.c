@@ -12,6 +12,5 @@ void app_main()
     
     init_uart();
     gsm_connection();
-    //vTaskDelay(pdMS_TO_TICKS());
     //send();
 }

@@ -2853,9 +2853,9 @@ Discarded input sections
  .rodata.__func__$0
                 0x0000000000000000       0x1a esp-idf/vfs/libvfs.a(vfs_uart.c.obj)
  .literal.mqtt_app_start
-                0x0000000000000000       0x20 esp-idf/main/libmain.a(main.c.obj)
+                0x0000000000000000       0x18 esp-idf/main/libmain.a(main.c.obj)
  .literal.mqtt_event_handler_cb
-                0x0000000000000000       0x7c esp-idf/main/libmain.a(main.c.obj)
+                0x0000000000000000       0x80 esp-idf/main/libmain.a(main.c.obj)
  .literal.mqtt_event_handler
                 0x0000000000000000        0x4 esp-idf/main/libmain.a(main.c.obj)
  .literal.send  0x0000000000000000        0x8 esp-idf/main/libmain.a(main.c.obj)
@@ -2863,9 +2863,9 @@ Discarded input sections
  .data          0x0000000000000000        0x0 esp-idf/main/libmain.a(main.c.obj)
  .bss           0x0000000000000000        0x0 esp-idf/main/libmain.a(main.c.obj)
  .rodata.mqtt_app_start.str1.4
-                0x0000000000000000       0x75 esp-idf/main/libmain.a(main.c.obj)
+                0x0000000000000000       0x24 esp-idf/main/libmain.a(main.c.obj)
  .text.mqtt_app_start
-                0x0000000000000000       0x42 esp-idf/main/libmain.a(main.c.obj)
+                0x0000000000000000       0x36 esp-idf/main/libmain.a(main.c.obj)
  .rodata.mqtt_event_handler_cb.str1.4
                 0x0000000000000000      0x1c6 esp-idf/main/libmain.a(main.c.obj)
  .text.mqtt_event_handler_cb

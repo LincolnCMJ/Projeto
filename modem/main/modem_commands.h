@@ -1,16 +1,7 @@
 #include "modem_uart_com.h"
 
-// #define SIM800L_RESET_PIN GPIO_NUM_12
-
 void gsm_connection()
 {
-    // gpio_reset_pin(SIM800L_RESET_PIN);
-    // gpio_set_direction(SIM800L_RESET_PIN, GPIO_MODE_OUTPUT);
-
-    // gpio_set_level(SIM800L_RESET_PIN, 1);
-
-    // vTaskDelay(pdMS_TO_TICKS(5000));
-    
     int step = 1;
     int response_check = 3;
     bool network_connect = false;
@@ -75,10 +66,6 @@ void gsm_connection()
             if (response_check == 0) {
                 printf("Command failed.\r\n");
                 /*Set new reset method.*/
-                // gpio_set_level(SIM800L_RESET_PIN, 0);
-                // vTaskDelay(pdMS_TO_TICKS(100));
-                // gpio_set_level(SIM800L_RESET_PIN, 1);
-                // vTaskDelay(pdMS_TO_TICKS(5000));
                 response_check = 3;
                 step = 1;
                 break;

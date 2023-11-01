@@ -31,3 +31,8 @@ const char *messages[] = {
 
 Link to thingspeak public view:
 https://thingspeak.com/channels/2302646
+
+#define SIM800L_RESET_PIN GPIO_NUM_12
+gpio_reset_pin(SIM800L_RESET_PIN);
+gpio_set_direction(SIM800L_RESET_PIN, GPIO_MODE_OUTPUT);
+gpio_set_level(SIM800L_RESET_PIN, 0);

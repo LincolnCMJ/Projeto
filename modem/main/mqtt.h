@@ -2,12 +2,13 @@
 
 static const char *TAG1 = "MQTT_Publisher";
 
-#define MQTT_BROKER_URI "mqtt://etransito.vitoria.ifes.edu.br:1883"
-#define MQTT_CLIENT_ID NULL
-#define MQTT_USERNAME "c43b745e-0ee3-4ca3-a41b-413068a7fe32"
-#define MQTT_PASSWORD "9c02894934fd40d999678f4576b6e7e6"
-#define MQTT_TOPIC "TO DEFINE"
-#define MQTT_PAYLOAD "TO DEFINE"
+#define MQTT_BROKER_URI "mqtt://mqtt.eclipseprojects.io:1883"
+// #define MQTT_BROKER_URI "mqtt://etransito.vitoria.ifes.edu.br:1883"
+// #define MQTT_CLIENT_ID NULL
+// #define MQTT_USERNAME "c43b745e-0ee3-4ca3-a41b-413068a7fe32"
+// #define MQTT_PASSWORD "9c02894934fd40d999678f4576b6e7e6"
+#define MQTT_TOPIC "GPS"
+#define MQTT_PAYLOAD "Teste."
 
 static esp_err_t mqtt_event_handler_cb(esp_mqtt_event_handle_t event) {
     esp_mqtt_client_handle_t client = event->client;
@@ -54,14 +55,14 @@ static void mqtt_app_start(void) {
         .broker = {
             .address.uri = MQTT_BROKER_URI,
         },
-        .credentials = {
-            .username = MQTT_USERNAME,
-            .client_id = MQTT_CLIENT_ID,
-            .authentication = {
-                .password = MQTT_PASSWORD,
-                //.certificate =0,
-            }
-        },
+        // .credentials = {
+        //     .username = MQTT_USERNAME,
+        //     .client_id = MQTT_CLIENT_ID,
+        //     .authentication = {
+        //         .password = MQTT_PASSWORD,
+        //         //.certificate =0,
+        //     }
+        // },
     };
 
     esp_mqtt_client_handle_t client = esp_mqtt_client_init(&mqtt_cfg);
