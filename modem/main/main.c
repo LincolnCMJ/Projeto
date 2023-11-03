@@ -4,6 +4,8 @@
 #include "mqtt.h"
 #include "wifi_connection.h"
 
+#include "nmea_parser_example_main.h"
+
 
 void app_main()
 {
@@ -15,11 +17,9 @@ void app_main()
     vTaskDelay(pdMS_TO_TICKS(2000));
     printf("WIFI was initiated ...........\n");
 
-    while (1)
-    {
-        send();
-        vTaskDelay(pdMS_TO_TICKS(10000));
-    }
+    send();
+    vTaskDelay(pdMS_TO_TICKS(100000));
+    printf("Done.\r\n");
     
     
     // init_uart();

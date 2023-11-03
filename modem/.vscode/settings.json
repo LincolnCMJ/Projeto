@@ -20,6 +20,7 @@
         "esp_system.h": "c",
         "mqtt.h": "c",
         "task.h": "c",
-        "mqtt_client.h": "c"
+        "mqtt_client.h": "c",
+        "nmea_parser_example_main.h": "c"
     }
 }

@@ -36,3 +36,6 @@ https://thingspeak.com/channels/2302646
 gpio_reset_pin(SIM800L_RESET_PIN);
 gpio_set_direction(SIM800L_RESET_PIN, GPIO_MODE_OUTPUT);
 gpio_set_level(SIM800L_RESET_PIN, 0);
+
+mqttx-cli-win-x64.exe
+mqttx pub -h 'etransito.vitoria.ifes.edu.br' -p 1883 -u 'c43b745e-0ee3-4ca3-a41b-413068a7fe32' -P '9c02894934fd40d999678f4576b6e7e6' -t record -m '[{"schema": 1, "data": {"latitude": -20.2878013, "longitude": -40.2931247}, "date": "2023-11-02T00:00:00.000-03:00"}]'
