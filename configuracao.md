@@ -22,7 +22,7 @@ Referênica: https://curtocircuito.com.br/blog/Categoria%20IoT/seguranca-no-mqtt
 1. Executar o "mosquitto_sub" e definiremos suas características:
 
            mosquitto_sub -h localhost -p 1883 -t "seu_topico"
-           mosquitto_sub -h mqtt.eclipseprojects.io -p 1883 -t "teste_localizacao" -d   
+           mosquitto_sub -h mqtt.eclipseprojects.io -p 1883 -t "GPS" -d   
 
 # Publisher Mosquitto
 1. Executar o "mosquitto_pub" e definiremos suas características:
