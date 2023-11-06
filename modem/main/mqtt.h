@@ -7,7 +7,7 @@ static const char *TAG1 = "MQTT_Publisher";
 #define MQTT_CLIENT_ID NULL
 #define MQTT_USERNAME "c43b745e-0ee3-4ca3-a41b-413068a7fe32"
 #define MQTT_PASSWORD "9c02894934fd40d999678f4576b6e7e6"
-#define MQTT_TOPIC "FPS"
+#define MQTT_TOPIC "record"
 // #define MQTT_PAYLOAD "data_to_send"
 
 static esp_err_t mqtt_event_handler_cb(esp_mqtt_event_handle_t event) {
