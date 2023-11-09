@@ -1,4 +1,6 @@
-char* generate_json() {
+char* geolocation() {
+    cJSON *new_array = cJSON_CreateArray();
+
     cJSON *root = cJSON_CreateObject();
     cJSON_AddNumberToObject(root, "schema", 1);
 
@@ -7,8 +9,10 @@ char* generate_json() {
     cJSON_AddNumberToObject(data, "longitude", -40.2931247);
     cJSON_AddItemToObject(root, "data", data);
 
-    cJSON_AddStringToObject(root, "date", "2023-11-2T00:00:00.000-03:00");
+    cJSON_AddStringToObject(root, "date", "2023-01-10T00:00:00.000-03:00");
 
-    char *json_string = cJSON_Print(root);
+    cJSON_AddItemToArray(new_array, root);
+
+    char *json_string = cJSON_Print(new_array);
     return json_string;
 }

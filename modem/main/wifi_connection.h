@@ -27,6 +27,8 @@
 
 #define EXAMPLE_ESP_WIFI_SSID      "VIVOFIBRA-3ED1"
 #define EXAMPLE_ESP_WIFI_PASS      "ePTTCnzeYy"
+// #define EXAMPLE_ESP_WIFI_SSID      "AndroidAPAF2C"
+// #define EXAMPLE_ESP_WIFI_PASS      "lrjn2457"
 #define EXAMPLE_ESP_MAXIMUM_RETRY  5
 
 /* FreeRTOS event group to signal when we are connected*/
@@ -131,7 +133,7 @@ void wifi_init_sta(void)
     vEventGroupDelete(s_wifi_event_group);
 }
 
-void esp_connect(void)
+void esp_WiFi(void)
 {
     //Initialize NVS
     esp_err_t ret = nvs_flash_init();

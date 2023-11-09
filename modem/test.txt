@@ -39,3 +39,121 @@ gpio_set_level(SIM800L_RESET_PIN, 0);
 
 mqttx-cli-win-x64.exe
 mqttx pub -h 'etransito.vitoria.ifes.edu.br' -p 1883 -u 'c43b745e-0ee3-4ca3-a41b-413068a7fe32' -P '9c02894934fd40d999678f4576b6e7e6' -t record -m '[{"schema": 1, "data": {"latitude": -20.2878013, "longitude": -40.2931247}, "date": "2023-11-02T00:00:00.000-03:00"}]'
+
+AT+MQTTUSERCFG= 0, 1, "ESP32", "c43b745e-0ee3-4ca3-a41b-413068a7fe32", "9c02894934fd40d999678f4576b6e7e6", 0, 0, "mqtt://etransito.vitoria.ifes.edu.br"
+
+void gsm_connection(void)
+{
+    int step = 1;
+    int response_check = 3;
+    bool network_connect = false;
+
+    while(!network_connect) {
+        switch (step)
+        {
+        case 1:
+            while(response_check > 0) {
+                send_at_command("ATE0\r\n", 1000); /*Disable echo.*/
+                response_check = at_response("ATE0", response_check);
+            }
+            response_check = 3;
+            step++;
+            break;
+        case 2:
+            while(response_check > 0) {
+                send_at_command("AT+CIPSHUT\r\n", 3000); /*Deactivate GPRS PDP Context.*/
+                response_check = at_response("AT+CIPSHUT", response_check);
+            }
+            response_check = 3;
+            step++;
+            break;
+        case 3:
+            while(response_check > 0) {
+                send_at_command("AT+CGATT=1\r\n", 2000); /*Atach to the GPRS network.*/
+                response_check = at_response("AT+CGATT=1", response_check);
+            }
+            response_check = 3;
+            step++;
+            break;
+        case 4:
+            while(response_check > 0) {
+                send_at_command("AT+CIPMUX=0\r\n", 2000); /*Single IP connection.*/
+                response_check = at_response("AT+CIPMUX=0", response_check);
+            }
+            response_check = 3;
+            step++;
+            break;
+        case 5:
+            while(response_check > 0) {
+                send_at_command("AT+CSTT=\"claro.com.br\",\"claro\",\"claro\"\r\n", 2000); /*Start task and set APN, user name, password.*/
+                response_check = at_response("AT+CSTT=\"claro.com.br\",\"claro\",\"claro\"", response_check);
+            }
+            response_check = 3;
+            step++;
+            break;
+        case 6:
+            while(response_check > 0) {
+                send_at_command("AT+CIICR\r\n", 3000); /*Bring up wireless connection with GPRS or CSD.*/
+                response_check = at_response("AT+CIICR", response_check);
+            }
+            response_check = 3;
+            step++;
+            break;
+        case 7:
+            while(response_check > 0) {
+                send_at_command("AT+CIFSR\r\n", 4000); /*Get local IP address.*/
+                printf("Repeat: %d\r\n", response_check);
+                response_check = at_response("AT+CIFSR", response_check);
+            }
+            if (response_check == 0) {
+                printf("Command failed.\r\n");
+                /*Set new reset method.*/
+                response_check = 3;
+                step = 1;
+                break;
+            }
+            else {
+                response_check = 3;
+                step++;
+                break;
+            }
+        case 8:
+            while(response_check > 0) {
+                send_at_command("AT+MQTTUSERCFG=\"0\",\"1\",\"ESP32\",\"c43b745e-0ee3-4ca3-a41b-413068a7fe32\",\"9c02894934fd40d999678f4576b6e7e6\",\"0\",\"0\",\"\"\r\n", 10000);
+                response_check = at_response("\r\n", response_check);
+            }
+            response_check = 3;
+            step++;
+            break;
+        case 9:
+            while(response_check > 0) {
+                //send_at_command("AT+MQTTCONN=\"0\",\"mqtt://etransito.vitoria.ifes.edu.br\",\"1883\",\"0\"\r\n", 10000);
+                send_at_command("AT+MQTTCONN=\"0\",\"mqtt://mqtt.eclipseprojects.io\",\"1883\",\"0\"\r\n", 10000);
+                response_check = at_response("\r\n", response_check);
+            }
+            response_check = 3;
+            step++;
+            break;
+        case 10:
+            while(response_check > 0) {
+                send_at_command("AT+MQTTPUB=\"0\",\"record\",\"30\",\"1\",\"0\"\r\n", 10000);
+                response_check = at_response("\r\n", response_check);
+            }
+            response_check = 3;
+            step++;
+            break;
+        case 11:
+            while(response_check > 0) {
+                send_at_command("AT+MQTTCLEAN=0\r\n", 10000);
+                response_check = at_response("\r\n", response_check);
+            }
+            response_check = 3;
+            step++;
+            break;
+        case 12:
+            network_connect = true;
+            break;
+        
+        }
+    }
+}
